@@ -72,16 +72,14 @@ file_content = process_json_lines(os.getenv("DATASET_STORAGE_FOLDER")+"data.txt"
 ##################################################################################################################################################################
 
 for line in file_content:
+    # Skip entries that have errors or don't have required fields
+    if 'error' in line or 'url' not in line or 'raw_text' not in line or 'title' not in line:
+        continue
 
     print(line['url'])
 
-    texts = []
     texts = text_splitter.create_documents([line['raw_text']],metadatas=[{"source":line['url'], "title":line['title']}])
 
     uuids = [str(uuid4()) for _ in range(len(texts))]
 
     vector_store.add_documents(documents=texts, ids=uuids)
-
-
-    if len(line) < 10:
-        break

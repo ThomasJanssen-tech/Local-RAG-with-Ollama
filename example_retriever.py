@@ -28,7 +28,7 @@ vector_store = Chroma(
 )
 
 results = vector_store.similarity_search_by_vector(
-    embedding=embeddings.embed_query("what is langchain"), k=5
+    embedding=embeddings.embed_query("describe React's rendering lifecycle"), k=5
 )
 
 for doc in results:
